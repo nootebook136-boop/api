@@ -9,12 +9,17 @@ $porta = (int) (getenv("DB_PORT") ?: 3306);
 
 try {
 
-    $conexao = new mysqli(
+    $conexao = mysqli_init();
+
+    mysqli_real_connect(
+        $conexao,
         $host,
         $usuario,
         $senha,
         $banco,
-        $porta
+        $porta,
+        null,
+        MYSQLI_CLIENT_SSL
     );
 
     $conexao->set_charset("utf8mb4");
