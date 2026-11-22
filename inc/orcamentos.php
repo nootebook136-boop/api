@@ -47,7 +47,7 @@ if ($id == "") {
 
         $stmtCategoria->close();
 
-        // Buscar transações da categoria
+      
         $sqlTransacao = "SELECT * FROM tb_transacoes
                         WHERE id_usuario = ?
                         AND id_categoria = ?";
@@ -62,8 +62,8 @@ if ($id == "") {
 
         while ($t = $resultadoTransacao->fetch_assoc()) {
 
-            $mes = (int) date("n", strtotime($t["dt_transacao"]));
-            $ano = (int) date("Y", strtotime($t["dt_transacao"]));
+            $mes = date("n", strtotime($t["dt_transacao"]));
+            $ano = date("Y", strtotime($t["dt_transacao"]));
 
             if (
                 $t["ds_tipo"] == "despesa" &&

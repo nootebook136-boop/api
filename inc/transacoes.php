@@ -1,18 +1,18 @@
+
 <?php
 
+$id = trim($_GET["id"] ?? "");
 
-    $id= trim($_GET["id"] ?? "");
-   
-    if ($id == "") {
+if ($id == "") {
 
-        $resposta = [
-            "sucesso" => false,
-            "mensagem" => "Id do Usuario Invalido"
-        ];
+    $resposta = [
+        "sucesso" => false,
+        "mensagem" => "Id do Usuario Invalido"
+    ];
 
-    } else {
+} else {
 
-     $sql = "SELECT *
+    $sql = "SELECT *
             FROM tb_transacoes
             WHERE id_usuario = ?
             ORDER BY dt_transacao DESC";
@@ -31,21 +31,65 @@
 
     while ($t = $resultado->fetch_assoc()) {
 
+        $idcategoria = $t["id_categoria"];
+
+        $sqlCategoria = "SELECT * FROM tb_categorias
+                         WHERE id_usuario = ?
+                         AND cd_categoria = ?";
+
+        $stmtCategoria = $conexao->prepare($sqlCategoria);
+        $stmtCategoria->bind_param("ii", $id, $idcategoria);
+        $stmtCategoria->execute();
+
+        $resultadoCategoria = $stmtCategoria->get_result();
+        $categoria = $resultadoCategoria->fetch_assoc();
+
+        $nomeCategoria = $categoria["ds_nome"] ?? "Sem categoria";
+
+        $stmtCategoria->close();
+
+
+        $formaPagamento = $t["ds_forma_pagamento"];
+        $idcartao = $t["id_cartao"];
+
+        $nomeCartao = "";
+        $finalCartao = "";
+
+        if ($formaPagamento == "cartao") {
+
+            $sqlCartao = "SELECT * FROM tb_cartoes
+                          WHERE id_usuario = ?
+                          AND cd_cartao = ?";
+
+            $stmtCartao = $conexao->prepare($sqlCartao);
+            $stmtCartao->bind_param("ii", $id, $idcartao);
+            $stmtCartao->execute();
+
+            $resultadoCartao = $stmtCartao->get_result();
+            $cartao = $resultadoCartao->fetch_assoc();
+
+            $nomeCartao = $cartao["ds_nome"] ?? "";
+            $finalCartao = $cartao["nr_final"] ?? "";
+
+            $stmtCartao->close();
+        }
+
+
         $resposta["transacoes"][] = [
             "id" => $t["id_usuario"],
-            "categoria" => $t["id_categoria"],
+            "categoria" => $nomeCategoria,
             "ds_transacao" => $t["ds_transacao"],
             "tipo" => $t["ds_tipo"],
             "vl_transacao" => $t["vl_transacao"],
-            "dt_transacao" => $t["dt_transacao"]
+            "dt_transacao" => $t["dt_transacao"],
+            "forma_pagamento" => $formaPagamento,
+            "nome_cartao" => $nomeCartao,
+            "final_cartao" => $finalCartao
         ];
 
     }
 
-$stmt->close();
+    $stmt->close();
 }
 
-
-      
-    
 ?>

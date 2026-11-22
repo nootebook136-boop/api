@@ -52,12 +52,41 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else if ($tipo == "verificar_codigo") {
         include_once("inc/verificar_codigo.php");
 
-    }else if ($tipo == "recuperar_senha") {
+    } else if ($tipo == "recuperar_senha") {
         include_once("inc/recuperar_senha.php");
 
-    } 
+    } else if ($tipo == "editar_categoria") {
+        include_once("inc/editar_categoria.php");
 
+    } else if ($tipo == "excluir_categoria") {
+        include_once("inc/excluir_categoria.php");
 
+    } else if ($tipo == "editar_transacao") {
+        include_once("inc/editar_transacao.php");
+
+    } else if ($tipo == "excluir_transacao") {
+        include_once("inc/excluir_transacao.php");
+
+    } else if ($tipo == "editar_meta") {
+        include_once("inc/editar_meta.php");
+
+    } else if ($tipo == "excluir_meta") {
+        include_once("inc/excluir_meta.php");
+
+    } else if ($tipo == "editar_cartao") {
+        include_once("inc/editar_cartao.php");
+
+    } else if ($tipo == "excluir_cartao") {
+        include_once("inc/excluir_cartao.php");
+
+    }
+    else if ($tipo == "editar_orcamento") {
+        include_once("inc/editar_orcamento.php");
+
+    } else if ($tipo == "excluir_orcamento") {
+        include_once("inc/excluir_orcamento.php");
+
+    }
 
 } else {
 
