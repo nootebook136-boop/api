@@ -34,7 +34,10 @@ if ($usuario && password_verify($senha_digitada, $usuario['ds_senha'])) {
             "nome" => $usuario['nm_usuario'],
             "email" => $usuario['ds_email'],
             "foto" => $usuario['ds_foto'],
-            "conta" => $usuario['ds_conta']
+            "conta" => $usuario['ds_conta'],
+             "telefone" => $usuario['ds_telefone'],
+            "cpf" => $usuario['ds_cpf'],
+            "nascimento" => $usuario['dt_nascimento']
         ]
     ];
 

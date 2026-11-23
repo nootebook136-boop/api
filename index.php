@@ -79,14 +79,34 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else if ($tipo == "excluir_cartao") {
         include_once("inc/excluir_cartao.php");
 
-    }
-    else if ($tipo == "editar_orcamento") {
+    } else if ($tipo == "editar_orcamento") {
         include_once("inc/editar_orcamento.php");
 
     } else if ($tipo == "excluir_orcamento") {
         include_once("inc/excluir_orcamento.php");
 
     }
+    else if ($tipo == "saldo") {
+    include_once("inc/saldo.php");
+
+    } else if ($tipo == "resumo_mensal") {
+    include_once("inc/resumo_mensal.php");
+    
+    } else if ($tipo == "grafico_mensal") {
+    include_once("inc/grafico_mensal.php");
+
+    } else if ($tipo == "despesa_categoria") {
+    include_once("inc/despesa_categoria.php");
+
+    } else if ($tipo == "alertas") {
+    include_once("inc/alertas.php");
+
+   } else if ($tipo == "proxima_conta") {
+    include_once("inc/proxima_conta.php");
+
+   } else if ($tipo == "ultima_transacao") {
+    include_once("inc/ultima_transacao.php");
+   }
 
 } else {
 
