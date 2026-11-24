@@ -107,6 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    } else if ($tipo == "ultima_transacao") {
     include_once("inc/ultima_transacao.php");
    }
+   else if ($tipo == "editar_perfil") {
+    include_once("inc/editar_perfil.php");
+   }
 
 } else {
 
