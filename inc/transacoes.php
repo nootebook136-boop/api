@@ -74,19 +74,21 @@ if ($id == "") {
             $stmtCartao->close();
         }
 
-
-        $resposta["transacoes"][] = [
-            "id" => $t["id_usuario"],
-            "categoria" => $nomeCategoria,
-            "ds_transacao" => $t["ds_transacao"],
-            "tipo" => $t["ds_tipo"],
-            "vl_transacao" => $t["vl_transacao"],
-            "dt_transacao" => $t["dt_transacao"],
-            "forma_pagamento" => $formaPagamento,
-            "nome_cartao" => $nomeCartao,
-            "final_cartao" => $finalCartao
-        ];
-
+$resposta["transacoes"][] = [
+    "id" => $t["cd_transacao"],
+    "id_transacao" => $t["cd_transacao"],
+    "id_usuario" => $t["id_usuario"],
+    "id_categoria" => $t["id_categoria"],
+    "id_cartao" => $t["id_cartao"],
+    "categoria" => $nomeCategoria,
+    "ds_transacao" => $t["ds_transacao"],
+    "tipo" => $t["ds_tipo"],
+    "vl_transacao" => $t["vl_transacao"],
+    "dt_transacao" => $t["dt_transacao"],
+    "forma_pagamento" => $formaPagamento,
+    "nome_cartao" => $nomeCartao,
+    "final_cartao" => $finalCartao
+];
     }
 
     $stmt->close();
