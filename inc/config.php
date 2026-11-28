@@ -1,4 +1,3 @@
-
 <?php
 
 $host = getenv("DB_HOST");
@@ -7,37 +6,51 @@ $senha = getenv("DB_PASSWORD");
 $banco = getenv("DB_NAME");
 $porta = (int) (getenv("DB_PORT") ?: 3306);
 
-try {
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    $conexao = mysqli_init();
+for ($tentativa = 1; $tentativa <= 3; $tentativa++) {
 
-    mysqli_options($conexao, MYSQLI_OPT_CONNECT_TIMEOUT, 30);
+    try {
 
-    mysqli_ssl_set($conexao, null, null, null, null, null);
+        $conexao = mysqli_init();
 
-    mysqli_real_connect(
-        $conexao,
-        $host,
-        $usuario,
-        $senha,
-        $banco,
-        $porta,
-        null,
-        MYSQLI_CLIENT_SSL
-    );
+        mysqli_options($conexao, MYSQLI_OPT_CONNECT_TIMEOUT, 15);
 
-    $conexao->set_charset("utf8mb4");
+        mysqli_ssl_set($conexao, null, null, null, null, null);
 
-} catch (mysqli_sql_exception $e) {
+        mysqli_real_connect(
+            $conexao,
+            $host,
+            $usuario,
+            $senha,
+            $banco,
+            $porta,
+            null,
+            MYSQLI_CLIENT_SSL
+        );
 
-    http_response_code(500);
+        $conexao->set_charset("utf8mb4");
 
-    echo json_encode([
-        "sucesso" => false,
-        "mensagem" => "Erro ao conectar ao banco de dados."
-    ]);
+        break;
 
-    exit;
+    } catch (mysqli_sql_exception $e) {
+
+        error_log("Erro MySQL: " . $e->getMessage());
+
+        if ($tentativa == 3 || !in_array($e->getCode(), [2002, 2003, 2006, 2013])) {
+
+            http_response_code(500);
+
+            echo json_encode([
+                "sucesso" => false,
+                "mensagem" => "Erro ao conectar ao banco de dados."
+            ], JSON_UNESCAPED_UNICODE);
+
+            exit;
+        }
+
+        sleep(2);
+    }
 }
 
 ?>
